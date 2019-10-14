@@ -1,0 +1,85 @@
+package com.ss.LMSBorrower.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.ss.LMSBorrower.Entity.Book;
+import com.ss.LMSBorrower.Entity.BookLoans;
+import com.ss.LMSBorrower.Entity.Borrower;
+import com.ss.LMSBorrower.Entity.LibraryBranch;
+
+@Component
+public class BookLoansDao extends DBConnection{
+	
+	private static BookLoansDao instance = null;
+
+	private BookLoansDao() {
+		// Exists only to defeat instantiation.
+	}
+
+	public static BookLoansDao getInstance() {
+		if (instance == null) {
+			instance = new BookLoansDao();
+		}
+		return instance;
+	}
+	
+	@Autowired
+	BookDao bookDao;
+	@Autowired
+	LibraryBranchDao libraryBranchDao;
+	@Autowired 
+	BorrowerDao borrowerDao;
+	
+	public BookLoans getBookLoansInformation(Borrower borrower, LibraryBranch libraryBranch, Book book) {
+		String query = "select * from tbl_book_loans where bookId=? and branchId=? and cardNo=?";
+		
+		BookLoans bookLoans = new BookLoans();
+		PreparedStatement ps;
+		try {
+			ps = getConnection().prepareStatement(query);
+			ps.setInt(1, book.getBookId());
+			ps.setInt(2, libraryBranch.getBranchId());
+			ps.setInt(3, borrower.getCardNo());
+			ResultSet resultSet = ps.executeQuery();
+			while(resultSet.next()) {
+				bookLoans.setLibraryBranch(libraryBranch);
+				bookLoans.setBook( book);
+				bookLoans.setBorrower(borrower);
+				bookLoans.setDateOut(resultSet.getDate("dateOut"));
+				
+				bookLoans.setDueDate(resultSet.getDate("dueDate"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bookLoans;
+	}
+	
+	public void insertIntoBookLoans(BookLoans bookLoans) {
+	
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			Statement st = getConnection().createStatement();
+			String query = "insert into tbl_book_loans values("+bookLoans.getBook().getBookId()
+			+","+bookLoans.getLibraryBranch().getBranchId()
+			+","+ bookLoans.getBorrower().getCardNo()
+			+",'"+formatter.format(bookLoans.getDateOut()) 
+			+"','"+formatter.format(bookLoans.getDueDate())+"');";
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}
