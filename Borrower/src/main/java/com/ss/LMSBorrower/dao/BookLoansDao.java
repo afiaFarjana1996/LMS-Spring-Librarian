@@ -108,5 +108,20 @@ public class BookLoansDao extends DBConnection{
 		}
 		return loanedBook;
 	}
+	
+	public void returnBook(BookLoans bookLoans) {
+		String query = "delete FROM tbl_book_loans where bookId=? and branchId=? " + 
+				"and cardNo=?";
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(query);
+			ps.setInt(1, bookLoans.getBook().getBookId());
+			ps.setInt(2, bookLoans.getLibraryBranch().getBranchId());
+			ps.setInt(3, bookLoans.getBorrower().getCardNo());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

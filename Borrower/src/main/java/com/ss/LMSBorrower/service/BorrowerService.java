@@ -93,4 +93,47 @@ public class BorrowerService {
 	public List<BookLoans> getListOfLoanedBooks(int cardNumber){
 		return bookLoansDao.getListOfLoanedBooks(cardNumber);
 	}
+	
+	public ResponseEntity<String> returnBook(int cardNumber, int branchId, int bookId ){
+		Borrower borrower = borrowerDao.getBorrowerByCardNumber(cardNumber);
+		LibraryBranch libraryBranch= libraryBranchDao.getLibraryBranchById(branchId);
+		Book book = bookDao.getBookById(bookId);
+		
+		BookCopies bookCopies = bookCopiesDao.getBookCopiesInformation(branchId, bookId);
+		Boolean ifAlreadyCheckedOut = bookLoansDao.checkIfAlreadyCheckedOut(borrower, libraryBranch, book);
+		
+		if(borrower.getCardNo()==0) {
+			return new ResponseEntity<String>("Borrower doesn't exist.",HttpStatus.NOT_FOUND);
+		}else {
+			if(libraryBranch.getBranchId()==0) {
+				return new ResponseEntity<String>("Library Branch doesn't exist.",HttpStatus.NOT_FOUND);
+			}
+			else {
+				if(book.getBookId()==0) {
+					return new ResponseEntity<String>("Book doesn't exist.",HttpStatus.NOT_FOUND);
+				}
+				else {
+					if(bookCopies.getNoOfCopies()==0) {
+						return new ResponseEntity<String>("The provided book doesn't exist in the branch.\n"
+								+ "Please try to checkout the book from another branch\n"
+								+ "Or see resources to check the books existing in this branch.",HttpStatus.NOT_FOUND);
+					}
+					else {
+						if(!ifAlreadyCheckedOut) {
+							return new ResponseEntity<String>("You have not checked out this book from this branch.",HttpStatus.NOT_ACCEPTABLE);
+						}else {
+							bookCopies.setNoOfCopies((bookCopies.getNoOfCopies()+1));
+							bookCopiesDao.updateNoOfBookCopies(bookCopies);
+							BookLoans bookLoans = new BookLoans();
+							bookLoans.setBook(book);
+							bookLoans.setLibraryBranch(libraryBranch);
+							bookLoans.setBorrower(borrower);
+							bookLoansDao.returnBook(bookLoans);
+						return new ResponseEntity<String>("return successful",HttpStatus.ACCEPTED);
+						}
+					}
+				}
+			}
+		}
+	}
 }

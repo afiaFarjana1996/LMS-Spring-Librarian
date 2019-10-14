@@ -19,7 +19,7 @@ public class BorrowerController {
 	@Autowired
 	BorrowerService borrowerService;
 	
-	@RequestMapping(path="lms/borrower/card-number/{cardNumber}/library-branch-id/{branchId}/book-id/{bookId}",method=RequestMethod.PUT)
+	@RequestMapping(path="lms/book-checkout/card-number/{cardNumber}/library-branch-id/{branchId}/book-id/{bookId}",method=RequestMethod.PUT)
 	public ResponseEntity<String> checkOutBook(@PathVariable int cardNumber, @PathVariable int branchId, @PathVariable int bookId ){
 		return borrowerService.checkOutBook(cardNumber, branchId, bookId);
 	}
@@ -27,5 +27,10 @@ public class BorrowerController {
 	@RequestMapping("lms/see-loaned-books/card-number/{cardNumber}")
 	public List<BookLoans> getListOfLoanedBooks(@PathVariable int cardNumber){
 		return borrowerService.getListOfLoanedBooks(cardNumber);
+	}
+	
+	@RequestMapping(path="lms/book-return/card-number/{cardNumber}/library-branch-id/{branchId}/book-id/{bookId}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> returnBook(@PathVariable int cardNumber, @PathVariable int branchId, @PathVariable int bookId ){
+		return borrowerService.returnBook(cardNumber, branchId, bookId);
 	}
 }
