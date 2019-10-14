@@ -1,7 +1,9 @@
 package com.ss.LMSBorrower.service;
 
 import java.util.Calendar;
+
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +41,9 @@ public class BorrowerService {
 		Borrower borrower = borrowerDao.getBorrowerByCardNumber(cardNumber);
 		LibraryBranch libraryBranch= libraryBranchDao.getLibraryBranchById(branchId);
 		Book book = bookDao.getBookById(bookId);
+		
 		BookCopies bookCopies = bookCopiesDao.getBookCopiesInformation(branchId, bookId);
-		BookLoans bookLoans = bookLoansDao.getBookLoansInformation(borrower, libraryBranch, book);
+		Boolean ifAlreadyCheckedOut = bookLoansDao.checkIfAlreadyCheckedOut(borrower, libraryBranch, book);
 		
 		if(borrower.getCardNo()==0) {
 			return new ResponseEntity<String>("Borrower doesn't exist.",HttpStatus.NOT_FOUND);
@@ -59,14 +62,18 @@ public class BorrowerService {
 								+ "Or see resources to check the books existing in this branch.",HttpStatus.NOT_FOUND);
 					}
 					else {
-						if(bookLoans.getDateOut()==null) {
+						if(ifAlreadyCheckedOut) {
 							return new ResponseEntity<String>("You have already checked out this book.\n"
 									+ "Try checking it out of another branch",HttpStatus.CONFLICT);
 						}else {
+							
 						bookCopies.setNoOfCopies((bookCopies.getNoOfCopies()-1));
+						BookLoans bookLoans = new BookLoans();
+						bookLoans.setBook(book);
+						bookLoans.setBorrower(borrower);
+						bookLoans.setLibraryBranch(libraryBranch);
 						
 						Calendar c = Calendar.getInstance();
-						  
 					    Date dateOut = new Date();  
 					    c.add(Calendar.DATE, 7);
 					    Date dueDate = c.getTime();
@@ -81,5 +88,9 @@ public class BorrowerService {
 				}
 			}
 		}
+	}
+	
+	public List<BookLoans> getListOfLoanedBooks(int cardNumber){
+		return bookLoansDao.getListOfLoanedBooks(cardNumber);
 	}
 }

@@ -1,8 +1,9 @@
 package com.ss.LMSBorrower.dao;
 
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.springframework.stereotype.Component;
 
@@ -24,13 +25,12 @@ public class BorrowerDao extends DBConnection{
 	}
 	
 	public Borrower getBorrowerByCardNumber(int cardNumber) {
-		String query = "select * from tbl_borrower where cardNo=?";
+		String query = "select * from tbl_borrower where cardNo="+cardNumber;
 		Borrower borrower = new Borrower();
-		PreparedStatement ps;
+		
 		try {
-			ps = getConnection().prepareStatement(query);
-			ps.setInt(1, cardNumber);
-			ResultSet resultSet = ps.executeQuery(query);
+			Statement st = getConnection().createStatement();
+			ResultSet resultSet = st.executeQuery(query);
 			while(resultSet.next()) {
 				borrower.setCardNo(resultSet.getInt("cardNo"));
 				borrower.setName(resultSet.getString("name"));
@@ -44,4 +44,5 @@ public class BorrowerDao extends DBConnection{
 		return borrower;
 		
 	}
+	
 }

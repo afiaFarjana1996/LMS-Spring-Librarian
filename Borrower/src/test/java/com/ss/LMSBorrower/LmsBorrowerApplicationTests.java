@@ -1,4 +1,4 @@
-package com.ss.testSpring.LMSBorrower;
+package com.ss.LMSBorrower;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

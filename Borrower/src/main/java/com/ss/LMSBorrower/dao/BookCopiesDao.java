@@ -11,8 +11,6 @@ import com.ss.LMSBorrower.Entity.BookCopies;
 
 @Component
 public class BookCopiesDao extends DBConnection{
-	LibraryBranchDao libraryBranchDaoObj = LibraryBranchDao.getInstance();
-	BookDao bookDaoObj = BookDao.getInstance();
 	
 	private static BookCopiesDao instance = null;
 
