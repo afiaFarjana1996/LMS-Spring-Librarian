@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DaoApplication {
+public class LMSApplication {
 
 	public static void main(String[] args) {
 		System.out.println("Hello");
-		SpringApplication.run(DaoApplication.class, args);
+		SpringApplication.run(LMSApplication.class, args);
 	}
 
 }
