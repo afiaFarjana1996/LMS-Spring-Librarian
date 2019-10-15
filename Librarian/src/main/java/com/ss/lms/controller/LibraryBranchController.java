@@ -40,6 +40,7 @@ public class LibraryBranchController {
 	
 	@RequestMapping(path="lms/library-branch/update",method=RequestMethod.PUT)
 	public ResponseEntity<String> updateLibraryBranch(@RequestBody LibraryBranch libraryBranch) {
+		
 		return libraryBranchService.updateLibraryBranch(libraryBranch);
 		
 	}

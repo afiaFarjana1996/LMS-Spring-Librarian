@@ -74,7 +74,7 @@ public class BookCopiesDao extends DBConnection{
 	
 	public boolean checkIfCopiesExist(BookCopies bookCopies) {
 		boolean retBool = false;
-		String query = "select * from tbl_book_copies"
+		String query = "select * from tbl_book_copies "
 				+ "where bookId=? and branchId=?";
 		PreparedStatement ps;
 		try {
@@ -83,16 +83,15 @@ public class BookCopiesDao extends DBConnection{
 			ps.setInt(2, bookCopies.getLibraryBranch().getBranchId());
 			ResultSet resultSet = ps.executeQuery();
 			while(resultSet.next()) {
-				if(resultSet.getInt("bookId")!=0) {
+				
 					retBool = true;
-				}
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-	
 				
 		return retBool;
 	}

@@ -32,6 +32,11 @@ public class BookCopiesController {
 		}
 	}
 	
+	@RequestMapping(path="lms/library-branch/id/{libraryBranchId}/book/{bookId}",produces="text/bookCopies")
+	public ResponseEntity<BookCopies> getBookCopies(@PathVariable int libraryBranchId,@PathVariable int bookId ){
+		return bookCopiesService.getBookCopies(libraryBranchId, bookId);
+	}
+	
 	
 	@RequestMapping(path="lms/add-copies/branch-id/{branchId}/book-id/{bookId}/newNoOfCopies/{noOfCopies}",method=RequestMethod.PUT)
 	public ResponseEntity<String> updateNoOfCopies(@PathVariable int branchId, @PathVariable int bookId, @PathVariable int noOfCopies){

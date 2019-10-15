@@ -1,11 +1,13 @@
 package com.ss.lms.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
 
 import com.ss.lms.dao.BookCopiesDao;
 import com.ss.lms.dao.BookDao;
@@ -26,6 +28,20 @@ public class BookCopiesService {
 	
 	public List<BookCopies> getBookListByBranchId(int libraryBranchId){
 		return bookCopiesDao.getBookListByLibraryBranchId(libraryBranchId);
+	}
+	
+	public ResponseEntity<BookCopies> getBookCopies(int branchId, int bookId){
+		List<BookCopies> bookList = bookCopiesDao.getBookListByLibraryBranchId(branchId);  
+		bookList = bookList.stream()
+				.filter(x -> x.getBook().getBookId()==bookId)
+				.collect(Collectors.toList());
+		BookCopies bookCopies = bookList.get(0);
+		if(!bookCopiesDao.checkIfCopiesExist(bookCopies)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}else {
+			return new ResponseEntity<>(bookCopies,HttpStatus.FOUND);
+		}
 	}
 	
 	
