@@ -115,7 +115,7 @@ public class BookCopiesDao extends DBConnection{
 	
 	
 	public void updateCopies(BookCopies bookCopies) {
-		String query = "update tbl_book_copies set noOfCopies=?,"
+		String query = "update tbl_book_copies set noOfCopies=? "
 				+ "where bookId=? and branchId=?";
 		try {
 			PreparedStatement ps = getConnection().prepareStatement(query);

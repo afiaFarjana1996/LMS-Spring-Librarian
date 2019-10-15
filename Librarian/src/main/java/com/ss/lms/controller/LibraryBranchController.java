@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,17 +17,18 @@ import com.ss.lms.entity.LibraryBranch;
 import com.ss.lms.service.LibraryBranchService;
 
 @RestController
+@RequestMapping("lms/library-branch/")
 public class LibraryBranchController {
     
 	@Autowired
 	LibraryBranchService libraryBranchService;
 	
-	@RequestMapping("lms/library-branch/retrieveList")
+	@GetMapping("get-branch-list")
 	public List<LibraryBranch> getAllLibraryBranch() {
 		return libraryBranchService.getAllLibraryBranch();
 	}
 	
-	@RequestMapping("lms/library-branch/getInformation/id/{libraryBranchId}")
+	@GetMapping("getInformation/id/{libraryBranchId}")
 	public ResponseEntity<LibraryBranch> getLibraryBranchById(@PathVariable int libraryBranchId){
 		LibraryBranch libraryBranch = libraryBranchService.getLibraryBranchById(libraryBranchId);
 		
@@ -38,7 +41,7 @@ public class LibraryBranchController {
 		
 	}
 	
-	@RequestMapping(path="lms/library-branch/update",method=RequestMethod.PUT)
+	@PutMapping("update")
 	public ResponseEntity<String> updateLibraryBranch(@RequestBody LibraryBranch libraryBranch) {
 		
 		return libraryBranchService.updateLibraryBranch(libraryBranch);
