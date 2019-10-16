@@ -2,7 +2,8 @@ package com.ss.lms.controller;
 
 import java.util.List;
 
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,17 +21,19 @@ import com.ss.lms.service.LibraryBranchService;
 
 @RestController
 @RequestMapping("lms/library-branch/")
+@Produces({"application/xml", "application/json"})
+@Consumes({"application/xml", "application/json"})
 public class LibraryBranchController {
     
 	@Autowired
 	LibraryBranchService libraryBranchService;
 	
-	@GetMapping(path="list",produces = {"application/json","application/xml"})
+	@GetMapping(path="list")
 	public List<LibraryBranch> getAllLibraryBranch() {
 		return libraryBranchService.getAllLibraryBranch();
 	}
 	
-	@GetMapping(path="id/{libraryBranchId}",produces = {"application/json","application/xml"})
+	@GetMapping(path="id/{libraryBranchId}")
 	public ResponseEntity<LibraryBranch> getLibraryBranchById(@PathVariable int libraryBranchId){
 		LibraryBranch libraryBranch = libraryBranchService.getLibraryBranchById(libraryBranchId);
 		
@@ -43,7 +46,7 @@ public class LibraryBranchController {
 		
 	}
 	
-	@PutMapping(path="branchChange",consumes={"application/json","application/xml"})
+	@PutMapping(path="branchChange")
 	public ResponseEntity<String> updateLibraryBranch(@RequestBody LibraryBranch libraryBranch) {
 		
 		return libraryBranchService.updateLibraryBranch(libraryBranch);

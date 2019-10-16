@@ -2,6 +2,9 @@ package com.ss.lms.controller;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,8 @@ import com.ss.lms.service.BookCopiesService;
 
 @RestController
 @RequestMapping("lms/")
+@Produces({"application/xml", "application/json"})
+@Consumes({"application/xml", "application/json"})
 public class BookCopiesController {
 
 	@Autowired
