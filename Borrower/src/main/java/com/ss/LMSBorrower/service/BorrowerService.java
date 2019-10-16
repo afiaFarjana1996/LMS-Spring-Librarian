@@ -90,8 +90,8 @@ public class BorrowerService {
 		}
 	}
 	
-	public List<BookLoans> getListOfLoanedBooks(int cardNumber){
-		return bookLoansDao.getListOfLoanedBooks(cardNumber);
+	public ResponseEntity<List<BookLoans>> getListOfLoanedBooks(int cardNumber){
+		return new ResponseEntity<List<BookLoans>>(bookLoansDao.getListOfLoanedBooks(cardNumber),HttpStatus.FOUND);
 	}
 	
 	public ResponseEntity<String> returnBook(int cardNumber, int branchId, int bookId ){
