@@ -2,6 +2,8 @@ package com.ss.LMSBorrower.controller;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import com.ss.LMSBorrower.service.BorrowerService;
 @RestController
 
 @RequestMapping("lms/")
+@Produces({"application/xml", "application/json"})
+@Consumes({"application/xml", "application/json"})
+
 public class BorrowerController {
 
 	@Autowired
@@ -36,8 +41,8 @@ public class BorrowerController {
 		return borrowerService.getListOfLoanedBooks(cardNumber);
 	}
 	
-	@DeleteMapping(path="book-return/card-number/{cardNumber}/library-branch-id/{branchId}/book-id/{bookId}",consumes={"application/json","application/xml"})
-	public ResponseEntity<String> returnBook(@PathVariable int cardNumber, @PathVariable int branchId, @PathVariable int bookId ){
-		return borrowerService.returnBook(cardNumber, branchId, bookId);
+	@DeleteMapping(path="book-return",consumes={"application/json","application/xml"})
+	public ResponseEntity<String> returnBook(@RequestBody ReadBookLoanData readBookLoanData){
+		return borrowerService.returnBook(readBookLoanData.getCardNumber(), readBookLoanData.getBranchId(), readBookLoanData.getBookId());
 	}
 }
