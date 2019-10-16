@@ -26,8 +26,14 @@ public class BookCopiesService {
 	@Autowired
 	BookDao bookDao;
 	
-	public List<BookCopies> getBookListByBranchId(int libraryBranchId){
-		return bookCopiesDao.getBookListByLibraryBranchId(libraryBranchId);
+	public ResponseEntity<List<BookCopies>> getBookListByBranchId(int libraryBranchId){
+		List<BookCopies> bookCopyList= bookCopiesDao.getBookListByLibraryBranchId(libraryBranchId); 
+		if(!bookCopyList.isEmpty()) {
+			return new ResponseEntity<>(bookCopyList,HttpStatus.FOUND);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	public ResponseEntity<BookCopies> getBookCopies(int branchId, int bookId){
