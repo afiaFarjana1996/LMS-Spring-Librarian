@@ -88,7 +88,7 @@ public class BorrowerService {
 			return new ResponseEntity<String>("Borrower doesn't exist",HttpStatus.NOT_FOUND);
 		}else {
 			List<BookLoans> bookLoansList = bookLoansDao.findAll().stream()
-					.filter(x-> x.getBookLoanKey().getBorrower().equals(borrower))
+					.filter(x-> x.getBookLoanKey().getBorrower().getCardNo()==cardNumber)
 					.collect(Collectors.toList());
 			return new ResponseEntity<List<BookLoans>>(bookLoansList,HttpStatus.OK);
 		}
