@@ -1,9 +1,43 @@
 package com.ss.LMSBorrower.Entity;
 
-public class LibraryBranch {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_library_branch")
+public class LibraryBranch implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5140415693127279438L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int branchId;
+	
+	@Column(name = "branchName")
 	private String branchName;
+	
+	@Column(name = "branchAddress")
 	private String branchAddress;
+   
+	public LibraryBranch() {
+		
+	}
+	
+	public LibraryBranch(int branchId, String branchName, String branchAddress) {
+		super();
+		this.branchId = branchId;
+		this.branchName = branchName;
+		this.branchAddress = branchAddress;
+	}
 
 	/**
 	 * @return the branchId

@@ -1,84 +1,117 @@
 package com.ss.LMSBorrower.Entity;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
-public class BookLoans {
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_book_loans")
+public class BookLoans implements Serializable{
 	
-	private Date dueDate;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6628056937248998616L;
+	@EmbeddedId
+	private BookLoansComposite bookLoansComposite;
+	
+	@Column(name = "dateOut")
 	private Date dateOut;
+	
+	@Column(name = "dueDate")
+	private Date dueDate;
 
-	private Book book;
-	private Borrower borrower;
-	private LibraryBranch libraryBranch;
+	public BookLoans() {}
 
-	/**
-	 * @return the dueDate
-	 */
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	/**
-	 * @param dueDate the dueDate to set
-	 */
-	public void setDueDate(Date dueDate) {
+	public BookLoans(BookLoansComposite bookLoansComposite, Date dateOut, Date dueDate)
+	{
+		super();
+		this.bookLoansComposite = bookLoansComposite;
+		this.dateOut = dateOut;
 		this.dueDate = dueDate;
 	}
 
-	/**
-	 * @return the dateOut
-	 */
-	public Date getDateOut() {
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bookLoansComposite == null) ? 0 : bookLoansComposite.hashCode());
+		result = prime * result + ((dateOut == null) ? 0 : dateOut.hashCode());
+		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BookLoans other = (BookLoans) obj;
+		if (bookLoansComposite == null)
+		{
+			if (other.bookLoansComposite != null)
+				return false;
+		} else if (!bookLoansComposite.equals(other.bookLoansComposite))
+			return false;
+		if (dateOut == null)
+		{
+			if (other.dateOut != null)
+				return false;
+		} else if (!dateOut.equals(other.dateOut))
+			return false;
+		if (dueDate == null)
+		{
+			if (other.dueDate != null)
+				return false;
+		} else if (!dueDate.equals(other.dueDate))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "BookLoans [bookLoansComposite=" + bookLoansComposite + ", dateOut=" + dateOut + ", dueDate=" + dueDate + "]";
+	}
+
+	public BookLoansComposite getBookLoanKey()
+	{
+		return bookLoansComposite;
+	}
+
+	public void setBookLoanKey(BookLoansComposite bookLoansComposite)
+	{
+		this.bookLoansComposite = bookLoansComposite;
+	}
+
+	public Date getDateOut()
+	{
 		return dateOut;
 	}
 
-	/**
-	 * @param dateOut the dateOut to set
-	 */
-	public void setDateOut(Date dateOut) {
+	public void setDateOut(Timestamp dateOut)
+	{
 		this.dateOut = dateOut;
 	}
 
-	/**
-	 * @return the book
-	 */
-	public Book getBook() {
-		return book;
+	public Date getDueDate()
+	{
+		return dueDate;
 	}
 
-	/**
-	 * @param book the book to set
-	 */
-	public void setBook(Book book) {
-		this.book = book;
-	}
-
-	/**
-	 * @return the borrower
-	 */
-	public Borrower getBorrower() {
-		return borrower;
-	}
-
-	/**
-	 * @param borrower the borrower to set
-	 */
-	public void setBorrower(Borrower borrower) {
-		this.borrower = borrower;
-	}
-
-	/**
-	 * @return the libraryBranch
-	 */
-	public LibraryBranch getLibraryBranch() {
-		return libraryBranch;
-	}
-
-	/**
-	 * @param libraryBranch the libraryBranch to set
-	 */
-	public void setLibraryBranch(LibraryBranch libraryBranch) {
-		this.libraryBranch = libraryBranch;
+	public void setDueDate(Timestamp dueDate)
+	{
+		this.dueDate = dueDate;
 	}
 
 }

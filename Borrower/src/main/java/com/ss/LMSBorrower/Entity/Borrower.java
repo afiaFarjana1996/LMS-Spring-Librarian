@@ -1,9 +1,34 @@
 package com.ss.LMSBorrower.Entity;
 
-public class Borrower {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_borrower")
+public class Borrower implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3020477388456764584L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cardNo;
+	
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "address")
 	private String address;
+	
+	@Column(name = "phone")
 	private String phone;
 
 	/**

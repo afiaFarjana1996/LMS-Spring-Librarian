@@ -1,9 +1,34 @@
 package com.ss.LMSBorrower.Entity;
 
-public class Publisher {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_publisher")
+public class Publisher implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 382483956146870375L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int publisherId;
+	
+	@Column(name = "publisherName")
 	private String publisherName;
+	
+	@Column(name = "publisherAddress")
 	private String publisherAddress;
+	
+	@Column(name = "publisherPhone")
 	private String publisherPhone;
 
 	/**

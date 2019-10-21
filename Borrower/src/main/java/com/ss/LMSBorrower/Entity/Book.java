@@ -1,11 +1,49 @@
 package com.ss.LMSBorrower.Entity;
 
-public class Book {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = "tbl_book")
+public class Book implements Serializable{
 	
-	private int bookId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8359570465337885596L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer bookId;
+	
+	@Column(name = "title")
 	private String title;
-	private Author author;
-	private Publisher publisher;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authorId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Author author;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publisherId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Publisher publisher;
 
 	/**
 	 * @return the bookId
