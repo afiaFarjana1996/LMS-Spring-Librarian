@@ -3,10 +3,14 @@ This project has the functionalities of a Librarian of LMS project.
 
 # Technologies-Used
 This is a Java8 project built in Spring-boot framework
-embedded servlet-container- apache tomcat
-build tool- maven
-relational database-mysql
-API testing tool-postman
+
+1. embedded servlet-container- apache tomcat
+
+2. build tool- maven
+
+3. relational database-mysql
+
+4. API testing tool-postman
 
 # Package-Description
 1.Entity package: This package has all the classes of plain old java objects. Each class has private fields and getter setter methods for setting value of the fields and getter method for getting that value.
